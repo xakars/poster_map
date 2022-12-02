@@ -7,7 +7,6 @@ class Place(models.Model):
     description_long = models.TextField("Подробное описание", blank=True)
     lng = models.FloatField('Долгота', blank=True)
     lat = models.FloatField('Широта', blank=True)
-    detailsUrl = models.CharField("Временная ссылка", max_length=1024)
 
     def __str__(self):
         return self.title
