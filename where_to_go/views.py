@@ -35,7 +35,7 @@ def index(request):
 
 def place_detail_view(request, place_id):
     place = get_object_or_404(Place, id=place_id)
-    imgs = Image.objects.filter(name=place_id)
+    imgs = Image.objects.filter(place=place_id)
     json = {
         'title': place.title,
         'imgs': [img.img.url for img in imgs],
