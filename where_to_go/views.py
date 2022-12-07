@@ -7,15 +7,15 @@ from places.models import Place, Image
 
 def serialize_place(place):
     return {
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates": [place.lng, place.lat]
+        'type': 'Feature',
+        'geometry': {
+            'type': 'Point',
+            'coordinates': [place.lng, place.lat]
         },
-        "properties": {
-            "title": place.title,
-            "placeId": place.id,
-            "detailsUrl": reverse('detail', args=[place.id])
+        'properties': {
+            'title': place.title,
+            'placeId': place.id,
+            'detailsUrl': reverse('detail', args=[place.id])
         }
     }
 
@@ -23,12 +23,12 @@ def serialize_place(place):
 def index(request):
     places = Place.objects.all()
     geo = {
-        "type": "FeatureCollection",
-        "features": [serialize_place(place) for place in places]
+        'type': 'FeatureCollection',
+        'features': [serialize_place(place) for place in places]
     }
 
     context = {
-        "places": geo
+        'places': geo
     }
     return render(request, 'index.html', context)
 
@@ -37,13 +37,13 @@ def place_detail_view(request, place_id):
     place = get_object_or_404(Place, id=place_id)
     imgs = Image.objects.filter(name=place_id)
     json = {
-        "title": place.title,
-        "imgs": [img.img.url for img in imgs],
-        "description_short": place.description_short,
-        "description_long": place.description_long,
-        "coordinates": {
-            "lat": place.lng,
-            "lng": place.lat
+        'title': place.title,
+        'imgs': [img.img.url for img in imgs],
+        'description_short': place.description_short,
+        'description_long': place.description_long,
+        'coordinates': {
+            'lat': place.lng,
+            'lng': place.lat
         }
     }
     return JsonResponse(json, json_dumps_params={'ensure_ascii': False})
