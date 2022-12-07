@@ -22,9 +22,7 @@ class Image(models.Model):
     img = models.ImageField(verbose_name='Картинка')
     position = models.PositiveIntegerField(
         'Позиция',
-        default=0,
-        blank=False,
-        null=False
+        default=0
     )
 
     def __str__(self):
