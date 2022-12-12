@@ -35,7 +35,7 @@ def index(request):
 
 def place_detail_view(request, place_id):
     place = get_object_or_404(Place, id=place_id)
-    json = {
+    place_detail = {
         'title': place.title,
         'imgs': [img.img.url for img in place.imgs.all()],
         'description_short': place.description_short,
@@ -45,4 +45,4 @@ def place_detail_view(request, place_id):
             'lng': place.lat
         }
     }
-    return JsonResponse(json, json_dumps_params={'ensure_ascii': False})
+    return JsonResponse(place_detail, json_dumps_params={'ensure_ascii': False})
