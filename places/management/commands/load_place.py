@@ -14,21 +14,21 @@ class Command(BaseCommand):
         response = requests.get(url)
         response.raise_for_status()
         place_detail = response.json()
-        try:
-            place = Place.objects.get(title=place_detail['title'])
-        except Place.DoesNotExist:
-            place = Place(
-                title=place_detail['title'],
-                description_short = place_detail['description_short'],
-                description_long = place_detail['description_long'],
-                lng = place_detail['coordinates']['lng'],
-                lat = place_detail['coordinates']['lat']
-            )
-            place.save()
-            img_urls = place_detail['imgs']
-            for index, url in enumerate(img_urls):
-                img = Image(name=Place.objects.get(title=place_detail['title']))
-                img_response = requests.get(url)
-                response.raise_for_status()
-                content = ContentFile(img_response.content)
-                img.img.save(str(index), content, save=True)
+
+        place, created = Place.objects.get_or_create(
+            title=place_detail['title'],
+            lng=place_detail['coordinates']['lng'],
+            lat=place_detail['coordinates']['lat'],
+            defaults= {
+                'description_short': place_detail['description_short'],
+                'description_long': place_detail['description_long'],
+            }
+        )
+
+        img_urls = place_detail['imgs']
+        for index, url in enumerate(img_urls):
+            img = Image(place=Place.objects.get(title=place_detail['title']))
+            img_response = requests.get(url)
+            response.raise_for_status()
+            content = ContentFile(img_response.content)
+            img.img.save(str(index), content, save=True)
