@@ -24,6 +24,8 @@ class Command(BaseCommand):
                 'description_long': place_detail['description_long'],
             }
         )
+        if not created:
+            place.imgs.all().delete()
 
         img_urls = place_detail['imgs']
         for index, url in enumerate(img_urls):
