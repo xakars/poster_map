@@ -29,8 +29,7 @@ class Command(BaseCommand):
 
         img_urls = place_detail['imgs']
         for index, url in enumerate(img_urls):
-            img = Image(place=Place.objects.get(title=place_detail['title']))
             img_response = requests.get(url)
             response.raise_for_status()
-            content = ContentFile(img_response.content)
-            img.img.save(str(index), content, save=True)
+            content = ContentFile(img_response.content, name=f'{str(index)}.jpg')
+            Image.objects.create(place=place, img=content, position=index)
