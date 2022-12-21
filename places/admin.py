@@ -22,3 +22,4 @@ class ImageAdmin(admin.ModelAdmin):
 class PlaceAdmin(admin.ModelAdmin):
     inlines = [ImageInline]
 
+
