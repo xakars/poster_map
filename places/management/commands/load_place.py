@@ -27,7 +27,7 @@ class Command(BaseCommand):
                 title=place_detail['title'],
                 lng=place_detail['coordinates']['lng'],
                 lat=place_detail['coordinates']['lat'],
-                defaults= {
+                defaults={
                     'description_short': place_detail.get('description_short', ''),
                     'description_long': place_detail.get('description_long', '')
                 }
@@ -38,4 +38,4 @@ class Command(BaseCommand):
                 self.download_images(img_urls, place)
 
         except KeyError as e:
-               print(f'В json-е локации не найдено значение {e}')
+            print(f'В json-е локации не найдено значение {e}')
