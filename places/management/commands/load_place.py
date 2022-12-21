@@ -9,6 +9,13 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('url', type=str)
 
+    def download_images(self, img_urls: list, place):
+        for index, url in enumerate(img_urls):
+            img_response = requests.get(url)
+            img_response.raise_for_status()
+            content = ContentFile(img_response.content, name=f'{str(index)}.jpg')
+            Image.objects.create(place=place, img=content, position=index)
+
     def handle(self, *args, **options):
         try:
             url = options['url']
@@ -25,15 +32,10 @@ class Command(BaseCommand):
                     'description_long': place_detail.get('description_long', '')
                 }
             )
-            if not created:
-                place.imgs.all().delete()
 
-            img_urls = place_detail.get('imgs', [])
-            for index, url in enumerate(img_urls):
-                img_response = requests.get(url)
-                response.raise_for_status()
-                content = ContentFile(img_response.content, name=f'{str(index)}.jpg')
-                Image.objects.create(place=place, img=content, position=index)
+            if created:
+                img_urls = place_detail.get('imgs', [])
+                self.download_images(img_urls, place)
 
         except KeyError as e:
                print(f'В json-е локации не найдено значение {e}')
