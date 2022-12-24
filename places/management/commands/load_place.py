@@ -13,7 +13,7 @@ class Command(BaseCommand):
         for index, url in enumerate(img_urls):
             img_response = requests.get(url)
             img_response.raise_for_status()
-            content = ContentFile(img_response.content, name=f'{str(index)}.jpg')
+            content = ContentFile(img_response.content, name=f'{index}.jpg')
             Image.objects.create(place=place, img=content, position=index)
 
     def handle(self, *args, **options):
