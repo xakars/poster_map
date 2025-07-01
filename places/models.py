@@ -9,6 +9,9 @@ class Place(models.Model):
     lng = models.FloatField('Долгота')
     lat = models.FloatField('Широта')
 
+    class Meta:
+        ordering = ['title']
+
     def __str__(self):
         return self.title
 
