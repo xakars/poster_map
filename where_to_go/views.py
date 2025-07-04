@@ -13,7 +13,7 @@ def serialize_place(place):
             'coordinates': [place.lng, place.lat]
         },
         'properties': {
-            'title': place.title,
+            'title': place.name,
             'placeId': place.id,
             'detailsUrl': reverse('detail', args=[place.id])
         }
@@ -36,7 +36,7 @@ def index(request):
 def place_detail_view(request, place_id):
     place = get_object_or_404(Place, id=place_id)
     place_detail = {
-        'title': place.title,
+        'title': place.name,
         'imgs': [img.img.url for img in place.imgs.all()],
         'description_short': place.description_short,
         'description_long': place.description_long,
